@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ['name'=>'Invoicing Team','email'=>'invoicing@baktiya.com','password'=>Hash::make('password'),'role'=>'invoicing','is_active'=>true],
             ['name'=>'Warehouse Team','email'=>'warehouse@baktiya.com','password'=>Hash::make('password'),'role'=>'warehouse','is_active'=>true],
         ];
-        foreach ($users as $u) User::create($u);
+        foreach ($users as $u) User::firstOrCreate(['email' => $u['email']], $u);
 
         // Categories
         $categories = [
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             ['code'=>'CHM','name'=>'Kimia'],
             ['code'=>'INS','name'=>'Instrumen'],
         ];
-        foreach ($categories as $cat) Category::create($cat);
+        foreach ($categories as $cat) Category::firstOrCreate(['code' => $cat['code']], $cat);
 
         // Customers
         $customers = [
@@ -38,14 +38,14 @@ class DatabaseSeeder extends Seeder
             ['code'=>'CUST0002','name'=>'CV. Sukses Jaya','company'=>'CV. Sukses Jaya','email'=>'cs@suksesjaya.com','phone'=>'022-5559876','city'=>'Bandung','status'=>'active','credit_limit'=>50000000],
             ['code'=>'CUST0003','name'=>'PT. Indo Teknologi','company'=>'PT. Indo Teknologi','email'=>'purchase@indotek.co.id','phone'=>'031-5554321','city'=>'Surabaya','status'=>'active','credit_limit'=>200000000],
         ];
-        foreach ($customers as $c) Customer::create($c);
+        foreach ($customers as $c) Customer::firstOrCreate(['code' => $c['code']], $c);
 
         // Suppliers
         $suppliers = [
             ['code'=>'SUPP0001','name'=>'PT. Sumber Elektronik','company'=>'PT. Sumber Elektronik','email'=>'sales@sumberelektronik.com','phone'=>'021-7771234','city'=>'Jakarta','payment_term'=>30,'status'=>'active'],
             ['code'=>'SUPP0002','name'=>'CV. Teknik Jaya','company'=>'CV. Teknik Jaya','email'=>'order@teknikjaya.com','phone'=>'022-7779876','city'=>'Bandung','payment_term'=>14,'status'=>'active'],
         ];
-        foreach ($suppliers as $s) Supplier::create($s);
+        foreach ($suppliers as $s) Supplier::firstOrCreate(['code' => $s['code']], $s);
 
         // Products
         $ins = Category::where('code','INS')->first()->id;
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             ['code'=>'PRD00012','name'=>'3M Alcohol-Free Respirator Cleaning Wipe Type 504','category_id'=>$chm,'unit'=>'PACK','cost_price'=>560000,'selling_price'=>745000,'stock_quantity'=>0,'min_stock'=>5,'max_stock'=>100,'is_active'=>true],
             ['code'=>'PRD00013','name'=>'3M Acid Gas Cartridges Type 6002','category_id'=>$chm,'unit'=>'PCS','cost_price'=>220000,'selling_price'=>300000,'stock_quantity'=>0,'min_stock'=>5,'max_stock'=>100,'is_active'=>true],
         ];
-        foreach ($products as $p) Product::create($p);
+        foreach ($products as $p) Product::firstOrCreate(['code' => $p['code']], $p);
 
         echo "Seeding selesai!\n";
     }
