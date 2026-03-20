@@ -1,6 +1,6 @@
 FROM php:8.3-cli
 
-# Install system dependencies
+# Install system dependencies + PHP extensions
 RUN apt-get update && apt-get install -y \
     curl zip unzip git libpng-dev libonig-dev libxml2-dev libzip-dev \
     && docker-php-ext-install pdo pdo_mysql mbstring xml ctype fileinfo zip \
@@ -11,15 +11,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy composer files first for layer caching
-COPY composer.json composer.lock ./
-RUN composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-scripts
-
-# Copy rest of application
+# Copy all files
 COPY . .
 
-# Run composer scripts after full copy
-RUN composer dump-autoload --optimize
+# Install dependencies (ignore platform reqs to avoid version mismatch)
+RUN composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-scripts --no-interaction
 
 # Set permissions
 RUN chmod -R 775 storage bootstrap/cache
