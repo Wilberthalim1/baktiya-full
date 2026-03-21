@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchasing/po/create', [PurchasingController::class, 'poCreate'])->name('purchasing.po.create');
     Route::post('/purchasing/po', [PurchasingController::class, 'poStore'])->name('purchasing.po.store');
     Route::get('/purchasing/po/{po}', [PurchasingController::class, 'poShow'])->name('purchasing.po.show');
+    Route::get('/purchasing/po/{po}/pdf', [PurchasingController::class, 'poPdf'])->name('purchasing.po.pdf');
     Route::patch('/purchasing/po/{po}/send', [PurchasingController::class, 'poSend'])->name('purchasing.po.send');
     Route::post('/purchasing/po/{po}/gr', [PurchasingController::class, 'grStore'])->name('purchasing.gr.store');
 

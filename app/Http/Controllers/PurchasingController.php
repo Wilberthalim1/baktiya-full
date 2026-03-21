@@ -164,6 +164,15 @@ class PurchasingController extends Controller
         return view('purchasing.po.show', compact('po'));
     }
 
+    public function poPdf(PurchaseOrder $po)
+    {
+        $po->load('supplier', 'purchaseRequest', 'items.product', 'creator');
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('purchasing.po.pdf', compact('po'));
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->stream('PO-' . $po->doc_no . '.pdf');
+    }
+
     public function poSend(PurchaseOrder $po)
     {
         $po->update(['status' => 'sent']);

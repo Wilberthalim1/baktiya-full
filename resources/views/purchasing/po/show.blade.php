@@ -26,6 +26,20 @@
             <i class="bi bi-check-circle me-1"></i>Sudah Dikirim ke Supplier
         </button>
         @endif
+        <a href="{{ route('purchasing.po.pdf', $po) }}" target="_blank" class="btn btn-outline-danger">
+            <i class="bi bi-file-earmark-pdf me-1"></i>Cetak PDF
+        </a>
+        @if($po->supplier->phone)
+        @php
+            $phone = preg_replace('/[^0-9]/', '', $po->supplier->phone);
+            if (str_starts_with($phone, '0')) $phone = '62' . substr($phone, 1);
+            $pdfUrl = route('purchasing.po.pdf', $po);
+            $waText = urlencode("Halo, berikut kami kirimkan Purchase Order " . $po->doc_no . " dari PT. Baktiya Utama Indonesia.\n\nSilakan unduh dokumen PO di link berikut:\n" . $pdfUrl . "\n\nMohon konfirmasi penerimaan PO ini. Terima kasih.");
+        @endphp
+        <a href="https://wa.me/{{ $phone }}?text={{ $waText }}" target="_blank" class="btn btn-success">
+            <i class="bi bi-whatsapp me-1"></i>Kirim via WhatsApp
+        </a>
+        @endif
         <span class="badge bg-{{ $po->status_badge }} fs-6 px-3 py-2">{{ $po->status_label }}</span>
     </div>
 </div>
