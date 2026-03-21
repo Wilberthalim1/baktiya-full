@@ -36,9 +36,8 @@ class DatabaseSeeder extends Seeder
 
         // Customers
         $customers = [
-            ['code'=>'CUST0001','name'=>'PT. Maju Bersama','company'=>'PT. Maju Bersama','email'=>'info@majubersama.com','phone'=>'021-5551234','city'=>'Jakarta','status'=>'active','credit_limit'=>100000000],
-            ['code'=>'CUST0002','name'=>'CV. Sukses Jaya','company'=>'CV. Sukses Jaya','email'=>'cs@suksesjaya.com','phone'=>'022-5559876','city'=>'Bandung','status'=>'active','credit_limit'=>50000000],
-            ['code'=>'CUST0003','name'=>'PT. Indo Teknologi','company'=>'PT. Indo Teknologi','email'=>'purchase@indotek.co.id','phone'=>'031-5554321','city'=>'Surabaya','status'=>'active','credit_limit'=>200000000],
+            ['code'=>'CUST0001','name'=>'PT. Vale Indonesia','company'=>'PT. Vale Indonesia','email'=>'info@vale.com','phone'=>'021-5551234','city'=>'Jakarta','status'=>'active','credit_limit'=>100000000],
+            ['code'=>'CUST0002','name'=>'PT. Riung Mitra Lestari','company'=>'PT. Riung Mitra Lestari','email'=>'cs@riungmitra.com','phone'=>'022-5559876','city'=>'Bandung','status'=>'active','credit_limit'=>50000000],
         ];
         foreach ($customers as $c) Customer::firstOrCreate(['code' => $c['code']], $c);
 
