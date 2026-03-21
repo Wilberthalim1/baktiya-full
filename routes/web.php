@@ -22,8 +22,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sales/create', [SalesOrderController::class, 'create'])->name('sales.create');
     Route::post('/sales', [SalesOrderController::class, 'store'])->name('sales.store');
     Route::get('/sales/{salesOrder}', [SalesOrderController::class, 'show'])->name('sales.show');
-    Route::patch('/sales/{salesOrder}/approve', [SalesOrderController::class, 'approve'])->name('sales.approve');
-    Route::patch('/sales/{salesOrder}/cancel', [SalesOrderController::class, 'cancel'])->name('sales.cancel');
+    Route::patch('/sales/{salesOrder}/approve', [SalesOrderController::class, 'approve'])->name('sales.approve')->middleware('role:management');
+    Route::patch('/sales/{salesOrder}/cancel', [SalesOrderController::class, 'cancel'])->name('sales.cancel')->middleware('role:management,admin');
 
     // Purchase Request
     Route::get('/purchasing/pr', [PurchasingController::class, 'prIndex'])->name('purchasing.pr.index');
