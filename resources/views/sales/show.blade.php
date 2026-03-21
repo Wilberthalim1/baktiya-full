@@ -7,14 +7,20 @@
     <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Kembali</a>
     <div class="d-flex gap-2">
         @if($salesOrder->status === 'draft')
-        <form action="{{ route('sales.approve', $salesOrder) }}" method="POST">
-            @csrf @method('PATCH')
-            <button class="btn btn-success">Approve SO</button>
-        </form>
-        <form action="{{ route('sales.cancel', $salesOrder) }}" method="POST">
-            @csrf @method('PATCH')
-            <button class="btn btn-outline-danger" onclick="return confirm('Batalkan SO ini?')">Batalkan</button>
-        </form>
+            @if(in_array(auth()->user()->role, ['management', 'admin']))
+            <form action="{{ route('sales.approve', $salesOrder) }}" method="POST" class="d-inline">
+                @csrf @method('PATCH')
+                <button class="btn btn-success"><i class="bi bi-check-circle me-1"></i>Approve SO</button>
+            </form>
+            <form action="{{ route('sales.cancel', $salesOrder) }}" method="POST" class="d-inline">
+                @csrf @method('PATCH')
+                <button class="btn btn-outline-danger" onclick="return confirm('Batalkan SO ini?')"><i class="bi bi-x-circle me-1"></i>Batalkan</button>
+            </form>
+            @else
+            <span class="badge bg-warning text-dark py-2 px-3 fs-6">
+                <i class="bi bi-clock me-1"></i>Menunggu Persetujuan Management
+            </span>
+            @endif
         @endif
     </div>
 </div>

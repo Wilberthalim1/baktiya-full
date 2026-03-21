@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
         // Users
         $users = [
             ['name'=>'Administrator','email'=>'admin@baktiya.com','password'=>Hash::make('password'),'role'=>'admin','is_active'=>true],
+            ['name'=>'Management','email'=>'management@baktiya.com','password'=>Hash::make('password'),'role'=>'management','is_active'=>true],
             ['name'=>'Sales Team','email'=>'sales@baktiya.com','password'=>Hash::make('password'),'role'=>'sales','is_active'=>true],
             ['name'=>'Purchasing Team','email'=>'purchasing@baktiya.com','password'=>Hash::make('password'),'role'=>'purchasing','is_active'=>true],
             ['name'=>'Invoicing Team','email'=>'invoicing@baktiya.com','password'=>Hash::make('password'),'role'=>'invoicing','is_active'=>true],
             ['name'=>'Warehouse Team','email'=>'warehouse@baktiya.com','password'=>Hash::make('password'),'role'=>'warehouse','is_active'=>true],
+            ['name'=>'Accounting Team','email'=>'accounting@baktiya.com','password'=>Hash::make('password'),'role'=>'accounting','is_active'=>true],
         ];
         foreach ($users as $u) User::firstOrCreate(['email' => $u['email']], $u);
 
