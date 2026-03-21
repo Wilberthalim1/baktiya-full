@@ -44,8 +44,8 @@ class DatabaseSeeder extends Seeder
 
         // Suppliers
         $suppliers = [
-            ['code'=>'SUPP0001','name'=>'PT. Sumber Elektronik','company'=>'PT. Sumber Elektronik','email'=>'sales@sumberelektronik.com','phone'=>'021-7771234','city'=>'Jakarta','payment_term'=>30,'status'=>'active'],
-            ['code'=>'SUPP0002','name'=>'CV. Teknik Jaya','company'=>'CV. Teknik Jaya','email'=>'order@teknikjaya.com','phone'=>'022-7779876','city'=>'Bandung','payment_term'=>14,'status'=>'active'],
+            ['code'=>'SUPP0001','name'=>'PT. Sedaya Mitra Sejahtera','company'=>'PT. Sedaya Mitra Sejahtera','email'=>'sales@sedayamitra.com','phone'=>'061-4571757','city'=>'Medan','payment_term'=>30,'status'=>'active'],
+            ['code'=>'SUPP0002','name'=>'3M Indonesia','company'=>'3M Indonesia','email'=>'order@3m.com','phone'=>'021-7779876','city'=>'Jakarta','payment_term'=>14,'status'=>'active'],
         ];
         foreach ($suppliers as $s) Supplier::firstOrCreate(['code' => $s['code']], $s);
 
