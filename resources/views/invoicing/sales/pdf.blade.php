@@ -210,9 +210,9 @@
         <div class="header-left">
             <div class="company-name">PT. Baktiya Utama Indonesia</div>
             <div class="company-address">
-                Jl. Raya Industri No. 1, Kawasan Industri Baktiya<br>
-                Jakarta Utara, DKI Jakarta 14350<br>
-                Telp: (021) 1234-5678 &nbsp;|&nbsp; Email: info@baktiyautama.co.id
+                Jl. K.H. Wahid Hasyim No.90A, Sei Sikambing D, Kec. Medan Petisah<br>
+                Kota Medan, Sumatera Utara 20119<br>
+                Telp: (061) 4571757 &nbsp;|&nbsp; Email: hitler@bhk.co.id
             </div>
         </div>
         <div class="header-right">
