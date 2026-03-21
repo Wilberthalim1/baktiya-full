@@ -7,7 +7,6 @@
     <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Kembali</a>
     <div class="d-flex gap-2">
         @if($salesOrder->status === 'draft')
-        @if(auth()->user()->role === 'management' || auth()->user()->role === 'admin')
         <form action="{{ route('sales.approve', $salesOrder) }}" method="POST">
             @csrf @method('PATCH')
             <button class="btn btn-success">Approve SO</button>
@@ -16,9 +15,6 @@
             @csrf @method('PATCH')
             <button class="btn btn-outline-danger" onclick="return confirm('Batalkan SO ini?')">Batalkan</button>
         </form>
-        @else
-        <span class="badge bg-warning text-dark py-2 px-3">Menunggu Persetujuan Management</span>
-        @endif
         @endif
     </div>
 </div>
