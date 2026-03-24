@@ -41,9 +41,11 @@
                 <td class="text-danger fw-bold">Rp {{ number_format($invoice->remaining_amount, 0, ',', '.') }}</td>
                 <td><span class="badge bg-{{ $invoice->status_badge }}">{{ $invoice->status_label }}</span></td>
                 <td>
+                    @if(in_array(auth()->user()->role, ['accounting','admin']))
                     <a href="{{ route('accounting.supplier.create', ['invoice_id' => $invoice->id]) }}" class="btn btn-sm btn-primary">
                         <i class="bi bi-cash me-1"></i>Bayar
                     </a>
+                    @endif
                 </td>
             </tr>
             @endforeach
