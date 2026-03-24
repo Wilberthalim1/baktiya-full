@@ -41,7 +41,7 @@
         <a href="{{ route('purchasing.po.index') }}" class="nav-link {{ request()->routeIs('purchasing.po.*') ? 'active' : '' }}"><i class="bi bi-bag me-2"></i>Purchase Order</a>
         @endif
 
-        @if(in_array(auth()->user()->role, ['admin','purchasing','accounting','management']))
+        @if(in_array(auth()->user()->role, ['admin','purchasing','accounting','management','warehouse']))
         <a href="{{ route('invoicing.purchase.index') }}" class="nav-link {{ request()->routeIs('invoicing.purchase.*') ? 'active' : '' }}"><i class="bi bi-receipt-cutoff me-2"></i>Invoice Pembelian</a>
         @endif
 
