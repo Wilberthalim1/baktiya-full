@@ -87,7 +87,7 @@
                 <td>{{ $payment->creator->name }}</td>
                 <td><span class="badge bg-{{ $payment->status_badge }}">{{ $payment->status_label }}</span></td>
                 <td>
-                    @if($payment->status === 'pending_approval')
+                    @if($payment->status === 'pending_approval' && in_array(auth()->user()->role, ['management','admin']))
                     <div class="d-flex gap-1">
                         <form action="{{ route('accounting.supplier.approve', $payment) }}" method="POST">
                             @csrf @method('PATCH')
@@ -102,6 +102,8 @@
                             </button>
                         </form>
                     </div>
+                    @elseif($payment->status === 'pending_approval')
+                    <span class="text-muted small"><i class="bi bi-hourglass-split me-1"></i>Menunggu Management</span>
                     @endif
                 </td>
             </tr>
