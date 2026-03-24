@@ -111,7 +111,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="border rounded p-3 text-center">
-                            <small class="text-muted d-block mb-1">Pemberi (Inventori)</small>
+                            <small class="text-muted d-block mb-1">Pemberi Barang (Petugas Gudang)</small>
                             <strong>{{ $transfer->giver_name }}</strong>
                             <div class="mt-2 border-top pt-2">
                                 <small class="text-muted">Dikonfirmasi:</small>
@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="border rounded p-3 text-center">
-                            <small class="text-muted d-block mb-1">Penerima (Sales)</small>
+                            <small class="text-muted d-block mb-1">Penerima Barang (Perwakilan Customer)</small>
                             <strong>{{ $transfer->receiver_name }}</strong>
                             <div class="mt-2 border-top pt-2">
                                 <small class="text-muted">Dikonfirmasi:</small>
@@ -187,12 +187,12 @@
                             <input type="date" name="transfer_date" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Nama Pemberi <small class="text-muted">(Inventori)</small></label>
-                            <input type="text" name="giver_name" class="form-control" placeholder="Nama petugas gudang" required>
+                            <label class="form-label fw-bold">Nama Pemberi <small class="text-muted">(Petugas Gudang)</small></label>
+                            <input type="text" name="giver_name" class="form-control" placeholder="Nama petugas gudang yang menyerahkan" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Nama Penerima <small class="text-muted">(Sales)</small></label>
-                            <input type="text" name="receiver_name" class="form-control" placeholder="Nama penerima dari sales" required>
+                            <label class="form-label fw-bold">Nama Penerima <small class="text-muted">(Perwakilan Customer)</small></label>
+                            <input type="text" name="receiver_name" class="form-control" placeholder="Nama perwakilan customer yang menerima" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Remarks</label>
