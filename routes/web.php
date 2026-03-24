@@ -30,8 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchasing/pr/create', [PurchasingController::class, 'prCreate'])->name('purchasing.pr.create');
     Route::post('/purchasing/pr', [PurchasingController::class, 'prStore'])->name('purchasing.pr.store');
     Route::get('/purchasing/pr/{pr}', [PurchasingController::class, 'prShow'])->name('purchasing.pr.show');
-    Route::patch('/purchasing/pr/{pr}/approve', [PurchasingController::class, 'prApprove'])->name('purchasing.pr.approve');
-    Route::patch('/purchasing/pr/{pr}/reject', [PurchasingController::class, 'prReject'])->name('purchasing.pr.reject');
+    Route::patch('/purchasing/pr/{pr}/approve', [PurchasingController::class, 'prApprove'])->name('purchasing.pr.approve')->middleware('role:management,admin');
+    Route::patch('/purchasing/pr/{pr}/reject', [PurchasingController::class, 'prReject'])->name('purchasing.pr.reject')->middleware('role:management,admin');
 
     // Purchase Order
     Route::get('/purchasing/po', [PurchasingController::class, 'poIndex'])->name('purchasing.po.index');
@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchasing/po/{po}', [PurchasingController::class, 'poShow'])->name('purchasing.po.show');
     Route::get('/purchasing/po/{po}/pdf', [PurchasingController::class, 'poPdf'])->name('purchasing.po.pdf');
     Route::patch('/purchasing/po/{po}/send', [PurchasingController::class, 'poSend'])->name('purchasing.po.send');
+    Route::patch('/purchasing/po/{po}/cancel', [PurchasingController::class, 'poCancel'])->name('purchasing.po.cancel');
+    Route::patch('/purchasing/po/{po}/grpo-cancel', [PurchasingController::class, 'grpoCancel'])->name('purchasing.grpo.cancel');
     Route::post('/purchasing/po/{po}/gr', [PurchasingController::class, 'grStore'])->name('purchasing.gr.store');
 
     // Invoicing
@@ -51,30 +53,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/invoicing/sales/{invoice}/pdf', [InvoicingController::class, 'salesPdf'])->name('invoicing.sales.pdf');
     Route::get('/invoicing/purchase', [InvoicingController::class, 'purchaseIndex'])->name('invoicing.purchase.index');
     Route::get('/invoicing/purchase/create', [InvoicingController::class, 'purchaseCreate'])->name('invoicing.purchase.create');
-    Route::get('/invoicing/purchase/create', [InvoicingController::class, 'purchaseCreate'])->name('invoicing.purchase.create');
     Route::post('/invoicing/purchase', [InvoicingController::class, 'purchaseStore'])->name('invoicing.purchase.store');
+
     // Accounting - Supplier Payment
     Route::get('/accounting/supplier', [AccountingController::class, 'supplierIndex'])->name('accounting.supplier.index');
     Route::get('/accounting/supplier/create', [AccountingController::class, 'supplierCreate'])->name('accounting.supplier.create');
     Route::post('/accounting/supplier', [AccountingController::class, 'supplierStore'])->name('accounting.supplier.store');
-    Route::patch('/accounting/supplier/{payment}/approve', [AccountingController::class, 'supplierApprove'])->name('accounting.supplier.approve');
-    Route::patch('/accounting/supplier/{payment}/reject', [AccountingController::class, 'supplierReject'])->name('accounting.supplier.reject');
+    Route::patch('/accounting/supplier/{payment}/approve', [AccountingController::class, 'supplierApprove'])->name('accounting.supplier.approve')->middleware('role:management,admin');
+    Route::patch('/accounting/supplier/{payment}/reject', [AccountingController::class, 'supplierReject'])->name('accounting.supplier.reject')->middleware('role:management,admin');
+
     // Accounting - Customer Payment
     Route::get('/accounting/customer', [AccountingController::class, 'customerIndex'])->name('accounting.customer.index');
     Route::get('/accounting/customer/create', [AccountingController::class, 'customerCreate'])->name('accounting.customer.create');
     Route::post('/accounting/customer', [AccountingController::class, 'customerStore'])->name('accounting.customer.store');
-    Route::patch('/purchasing/po/{po}/cancel', [PurchasingController::class, 'poCancel'])->name('purchasing.po.cancel');
-    Route::patch('/purchasing/po/{po}/grpo-cancel', [PurchasingController::class, 'grpoCancel'])->name('purchasing.grpo.cancel');
-    // Accounting - Supplier Payment
-    Route::get('/accounting/supplier', [AccountingController::class, 'supplierIndex'])->name('accounting.supplier.index');
-    Route::get('/accounting/supplier/create', [AccountingController::class, 'supplierCreate'])->name('accounting.supplier.create');
-    Route::post('/accounting/supplier', [AccountingController::class, 'supplierStore'])->name('accounting.supplier.store');
-    Route::patch('/accounting/supplier/{payment}/approve', [AccountingController::class, 'supplierApprove'])->name('accounting.supplier.approve');
-    Route::patch('/accounting/supplier/{payment}/reject', [AccountingController::class, 'supplierReject'])->name('accounting.supplier.reject');
-    // Accounting - Customer Payment
-    Route::get('/accounting/customer', [AccountingController::class, 'customerIndex'])->name('accounting.customer.index');
-    Route::get('/accounting/customer/create', [AccountingController::class, 'customerCreate'])->name('accounting.customer.create');
-    Route::post('/accounting/customer', [AccountingController::class, 'customerStore'])->name('accounting.customer.store');
+
     // Inventory Transfer
     Route::get('/inventory/transfer', [InventoryController::class, 'index'])->name('inventory.transfer.index');
     Route::get('/inventory/transfer/{transfer}', [InventoryController::class, 'show'])->name('inventory.transfer.show');
