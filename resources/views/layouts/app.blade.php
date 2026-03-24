@@ -26,18 +26,24 @@
         <a href="{{ route('inventory.index') }}" class="nav-link {{ request()->routeIs('inventory.index') ? 'active' : '' }}"><i class="bi bi-box-seam me-2"></i>Inventori</a>
         <a href="{{ route('inventory.transfer.index') }}" class="nav-link {{ request()->routeIs('inventory.transfer.*') ? 'active' : '' }}"><i class="bi bi-arrow-left-right me-2"></i>Inventory Transfer</a>
 
-        @if(in_array(auth()->user()->role, ['admin','sales']))
+        @if(in_array(auth()->user()->role, ['admin','sales','invoicing','management']))
         <div class="nav-section">Penjualan</div>
         <a href="{{ route('sales.index') }}" class="nav-link {{ request()->routeIs('sales.*') ? 'active' : '' }}"><i class="bi bi-cart me-2"></i>Sales Order</a>
         <a href="{{ route('invoicing.sales.index') }}" class="nav-link {{ request()->routeIs('invoicing.sales.*') ? 'active' : '' }}"><i class="bi bi-receipt me-2"></i>Invoice Penjualan</a>
         @endif
 
-        @if(in_array(auth()->user()->role, ['admin','purchasing']))
+        @if(in_array(auth()->user()->role, ['admin','purchasing','management']))
         <div class="nav-section">Pembelian</div>
         <a href="{{ route('purchasing.pr.index') }}" class="nav-link {{ request()->routeIs('purchasing.pr.*') ? 'active' : '' }}"><i class="bi bi-file-text me-2"></i>Purchase Request</a>
         <a href="{{ route('purchasing.po.index') }}" class="nav-link {{ request()->routeIs('purchasing.po.*') ? 'active' : '' }}"><i class="bi bi-bag me-2"></i>Purchase Order</a>
+        @endif
+
+        @if(in_array(auth()->user()->role, ['admin','purchasing','accounting','management']))
         <a href="{{ route('invoicing.purchase.index') }}" class="nav-link {{ request()->routeIs('invoicing.purchase.*') ? 'active' : '' }}"><i class="bi bi-receipt-cutoff me-2"></i>Invoice Pembelian</a>
-        <div class="nav-section">ACCOUNTING</div>
+        @endif
+
+        @if(in_array(auth()->user()->role, ['admin','accounting','management']))
+        <div class="nav-section">Accounting</div>
         <a href="{{ route('accounting.supplier.index') }}" class="nav-link {{ request()->routeIs('accounting.supplier.*') ? 'active' : '' }}"><i class="bi bi-cash me-2"></i>Bayar Supplier</a>
         <a href="{{ route('accounting.customer.index') }}" class="nav-link {{ request()->routeIs('accounting.customer.*') ? 'active' : '' }}"><i class="bi bi-cash-coin me-2"></i>Pelunasan Customer</a>
         @endif
