@@ -11,7 +11,7 @@
 @endif
 
 {{-- PO Menunggu GRPO --}}
-@if($pending_pos->count() > 0)
+@if($pending_pos->count() > 0 && in_array(auth()->user()->role, ['warehouse','admin']))
 <div class="card mb-4 border-warning">
     <div class="card-header bg-warning fw-bold">
         <i class="bi bi-clock me-2"></i>Purchase Order Menunggu GRPO ({{ $pending_pos->count() }})
@@ -53,7 +53,7 @@
         </table>
     </div>
 </div>
-@else
+@elseif(in_array(auth()->user()->role, ['warehouse','admin']))
 <div class="alert alert-info mb-4">
     <i class="bi bi-info-circle me-2"></i>Tidak ada PO yang menunggu GRPO.
 </div>

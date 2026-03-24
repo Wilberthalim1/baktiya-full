@@ -174,35 +174,41 @@
         </div>
 
         @if($transfer->status === 'pending' && $transfer->isStockSufficient())
-        <div class="card border-primary">
-            <div class="card-header bg-primary text-white fw-bold">
-                <i class="bi bi-arrow-right-circle me-2"></i>Proses Transfer
+            @if(in_array(auth()->user()->role, ['warehouse','admin']))
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white fw-bold">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Proses Transfer
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('inventory.transfer.process', $transfer) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tanggal Transfer</label>
+                            <input type="date" name="transfer_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama Pemberi <small class="text-muted">(Inventori)</small></label>
+                            <input type="text" name="giver_name" class="form-control" placeholder="Nama petugas gudang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama Penerima <small class="text-muted">(Sales)</small></label>
+                            <input type="text" name="receiver_name" class="form-control" placeholder="Nama penerima dari sales" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Remarks</label>
+                            <textarea name="remarks" class="form-control" rows="2" placeholder="Catatan transfer..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Konfirmasi transfer barang keluar?')">
+                            <i class="bi bi-check-circle me-1"></i>Konfirmasi Transfer
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div class="card-body">
-                <form action="{{ route('inventory.transfer.process', $transfer) }}" method="POST">
-                    @csrf @method('PATCH')
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tanggal Transfer</label>
-                        <input type="date" name="transfer_date" class="form-control" value="{{ date('Y-m-d') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nama Pemberi <small class="text-muted">(Inventori)</small></label>
-                        <input type="text" name="giver_name" class="form-control" placeholder="Nama petugas gudang" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nama Penerima <small class="text-muted">(Sales)</small></label>
-                        <input type="text" name="receiver_name" class="form-control" placeholder="Nama penerima dari sales" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Remarks</label>
-                        <textarea name="remarks" class="form-control" rows="2" placeholder="Catatan transfer..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Konfirmasi transfer barang keluar?')">
-                        <i class="bi bi-check-circle me-1"></i>Konfirmasi Transfer
-                    </button>
-                </form>
+            @else
+            <div class="alert alert-warning">
+                <i class="bi bi-lock me-2"></i>Proses transfer hanya dapat dilakukan oleh tim <strong>Warehouse</strong>.
             </div>
-        </div>
+            @endif
         @elseif($transfer->status === 'pending' && !$transfer->isStockSufficient())
         <div class="alert alert-danger">
             <i class="bi bi-exclamation-triangle me-2"></i>

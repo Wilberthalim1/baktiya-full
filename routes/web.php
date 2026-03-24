@@ -70,6 +70,6 @@ Route::middleware(['auth'])->group(function () {
     // Inventory Transfer
     Route::get('/inventory/transfer', [InventoryController::class, 'index'])->name('inventory.transfer.index');
     Route::get('/inventory/transfer/{transfer}', [InventoryController::class, 'show'])->name('inventory.transfer.show');
-    Route::patch('/inventory/transfer/{transfer}/process', [InventoryController::class, 'process'])->name('inventory.transfer.process');
+    Route::patch('/inventory/transfer/{transfer}/process', [InventoryController::class, 'process'])->name('inventory.transfer.process')->middleware('role:warehouse,admin');
     Route::get('/inventory/transfer/{transfer}/print', [InventoryController::class, 'print'])->name('inventory.transfer.print');
 });

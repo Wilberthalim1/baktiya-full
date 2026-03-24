@@ -27,7 +27,9 @@
                     <th>Total</th>
                     <th>Sisa Bayar</th>
                     <th>Status</th>
+                    @if(in_array(auth()->user()->role, ['accounting','admin']))
                     <th>Aksi</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -40,13 +42,13 @@
                 <td>Rp {{ number_format($invoice->total, 0, ',', '.') }}</td>
                 <td class="text-danger fw-bold">Rp {{ number_format($invoice->remaining_amount, 0, ',', '.') }}</td>
                 <td><span class="badge bg-{{ $invoice->status_badge }}">{{ $invoice->status_label }}</span></td>
+                @if(in_array(auth()->user()->role, ['accounting','admin']))
                 <td>
-                    @if(in_array(auth()->user()->role, ['accounting','admin']))
                     <a href="{{ route('accounting.supplier.create', ['invoice_id' => $invoice->id]) }}" class="btn btn-sm btn-primary">
                         <i class="bi bi-cash me-1"></i>Bayar
                     </a>
-                    @endif
                 </td>
+                @endif
             </tr>
             @endforeach
             </tbody>
