@@ -36,6 +36,9 @@
         <div class="nav-section">Pembelian</div>
         <a href="{{ route('purchasing.pr.index') }}" class="nav-link {{ request()->routeIs('purchasing.pr.*') ? 'active' : '' }}"><i class="bi bi-file-text me-2"></i>Purchase Request</a>
         <a href="{{ route('purchasing.po.index') }}" class="nav-link {{ request()->routeIs('purchasing.po.*') ? 'active' : '' }}"><i class="bi bi-bag me-2"></i>Purchase Order</a>
+        @elseif(auth()->user()->role === 'warehouse')
+        <div class="nav-section">Pembelian</div>
+        <a href="{{ route('purchasing.po.index') }}" class="nav-link {{ request()->routeIs('purchasing.po.*') ? 'active' : '' }}"><i class="bi bi-bag me-2"></i>Purchase Order</a>
         @endif
 
         @if(in_array(auth()->user()->role, ['admin','purchasing','accounting','management']))

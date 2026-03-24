@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/invoicing/sales/{invoice}/pdf', [InvoicingController::class, 'salesPdf'])->name('invoicing.sales.pdf');
     Route::get('/invoicing/purchase', [InvoicingController::class, 'purchaseIndex'])->name('invoicing.purchase.index');
     Route::get('/invoicing/purchase/create', [InvoicingController::class, 'purchaseCreate'])->name('invoicing.purchase.create');
-    Route::post('/invoicing/purchase', [InvoicingController::class, 'purchaseStore'])->name('invoicing.purchase.store');
+    Route::post('/invoicing/purchase', [InvoicingController::class, 'purchaseStore'])->name('invoicing.purchase.store')->middleware('role:warehouse,admin');
 
     // Accounting - Supplier Payment
     Route::get('/accounting/supplier', [AccountingController::class, 'supplierIndex'])->name('accounting.supplier.index');
