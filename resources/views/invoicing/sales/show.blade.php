@@ -60,15 +60,16 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 text-center">
-                        <small class="text-muted d-block mb-4">Pemberi Barang (Gudang)</small>
+                        <small class="text-muted d-block mb-4">Sales / Pemberi Barang</small>
                         <div class="border-top pt-2 fw-bold">
-                            {{ $invoice->inventoryTransfer->giver_name ?? '-' }}
+                            {{ $invoice->inventoryTransfer->receiver_name ?? '-' }}
                         </div>
                     </div>
                     <div class="col-md-6 text-center">
-                        <small class="text-muted d-block mb-4">Penerima Barang (Perwakilan Customer)</small>
-                        <div class="border-top pt-2 fw-bold">
-                            {{ $invoice->inventoryTransfer->receiver_name ?? '-' }}
+                        <small class="text-muted d-block mb-1">Penerima Barang</small>
+                        <small class="text-muted d-block mb-3">Perwakilan {{ $invoice->customer->name }}</small>
+                        <div class="border rounded mt-2" style="height:60px; background:#f8f9fa;">
+                            <small class="text-muted d-flex align-items-center justify-content-center h-100">TTD Penerima</small>
                         </div>
                     </div>
                 </div>
