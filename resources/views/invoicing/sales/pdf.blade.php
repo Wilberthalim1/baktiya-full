@@ -307,15 +307,14 @@
             <div class="sig-title">Sales / Pemberi Barang</div>
             <div class="sig-area"></div>
             <div class="sig-name">
-                {{ $invoice->inventoryTransfer->creator->name ?? $invoice->inventoryTransfer->giver_name ?? '-' }}
+                {{ $invoice->inventoryTransfer->receiver_name ?? '-' }}
             </div>
         </div>
         <div class="sig-col sig-col-right">
             <div class="sig-title">Penerima Barang</div>
+            <div style="font-size:10px; color:#555; margin-bottom:4px;">Perwakilan {{ $invoice->customer->name }}</div>
             <div class="sig-area"></div>
-            <div class="sig-name">
-                {{ $invoice->inventoryTransfer->receiver_name ?? '-' }}
-            </div>
+            <div class="sig-name">&nbsp;</div>
         </div>
     </div>
 
