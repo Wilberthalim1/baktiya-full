@@ -16,9 +16,11 @@
         </select>
         <button class="btn btn-outline-secondary">Cari</button>
     </form>
+    @if(!in_array(auth()->user()->role, ['purchasing']))
     <a href="{{ route('purchasing.pr.create') }}" class="btn btn-primary">
         <i class="bi bi-plus me-1"></i>Buat PR
     </a>
+    @endif
 </div>
 
 @if(session('success'))
