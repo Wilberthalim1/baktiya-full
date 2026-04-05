@@ -36,9 +36,6 @@
             $pdfUrl = route('purchasing.po.pdf', $po);
             $waText = urlencode("Halo, berikut kami kirimkan Purchase Order " . $po->doc_no . " dari PT. Baktiya Utama Indonesia.\n\nSilakan unduh dokumen PO di link berikut:\n" . $pdfUrl . "\n\nMohon konfirmasi penerimaan PO ini. Terima kasih.");
         @endphp
-        <a href="https://wa.me/{{ $phone }}?text={{ $waText }}" target="_blank" class="btn btn-success">
-            <i class="bi bi-whatsapp me-1"></i>Kirim via WhatsApp
-        </a>
         @endif
         <span class="badge bg-{{ $po->status_badge }} fs-6 px-3 py-2">{{ $po->status_label }}</span>
     </div>
