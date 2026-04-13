@@ -18,7 +18,7 @@
         table.items td { text-align: center; }
         table.items td:nth-child(2) { text-align: left; }
         .signature-section { display: flex; justify-content: space-between; margin-top: 30px; }
-        .signature-box { width: 45%; text-align: center; }
+        .signature-box { width: 30%; text-align: center; }
         .signature-line { border-top: 1px solid #000; margin-top: 80px; padding-top: 5px; }
         .badge-ok { background: #28a745; color: white; padding: 2px 8px; border-radius: 3px; }
         .badge-warn { background: #dc3545; color: white; padding: 2px 8px; border-radius: 3px; }
@@ -105,7 +105,8 @@
 
 <div class="signature-section">
     <div class="signature-box">
-        <p><strong>Pemberi</strong> (Departemen Inventori)</p>
+        <p><strong>Pemberi Barang</strong></p>
+        <p style="font-size:10px; color:#555;">(Petugas Gudang)</p>
         <p>Nama: {{ $transfer->giver_name ?? '____________________' }}</p>
         @if($transfer->giver_confirmed_at)
         <p>Tanggal: {{ $transfer->giver_confirmed_at->format('d/m/Y H:i') }}</p>
@@ -115,13 +116,21 @@
         <div class="signature-line">Tanda Tangan</div>
     </div>
     <div class="signature-box">
-        <p><strong>Penerima</strong> (Departemen Sales)</p>
+        <p><strong>Penerima Barang</strong></p>
+        <p style="font-size:10px; color:#555;">(Sales)</p>
         <p>Nama: {{ $transfer->receiver_name ?? '____________________' }}</p>
         @if($transfer->receiver_confirmed_at)
         <p>Tanggal: {{ $transfer->receiver_confirmed_at->format('d/m/Y H:i') }}</p>
         @else
         <p>Tanggal: ____________________</p>
         @endif
+        <div class="signature-line">Tanda Tangan</div>
+    </div>
+    <div class="signature-box">
+        <p><strong>Penerima Barang</strong></p>
+        <p style="font-size:10px; color:#555;">({{ $transfer->salesOrder->customer->name }})</p>
+        <p>Nama: ____________________</p>
+        <p>Tanggal: ____________________</p>
         <div class="signature-line">Tanda Tangan</div>
     </div>
 </div>
