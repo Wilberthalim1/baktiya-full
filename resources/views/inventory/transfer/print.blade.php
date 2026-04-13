@@ -132,6 +132,9 @@
         <p>Nama: ____________________</p>
         <p>Tanggal: ____________________</p>
         <div class="signature-line">Tanda Tangan</div>
+        <p style="font-size:9px; color:#333; margin-top:6px; font-style:italic;">
+            Dengan menandatangani dokumen ini, pihak penerima menyatakan telah menerima seluruh barang dalam kondisi baik dan lengkap sesuai pesanan, serta <strong>tidak dapat mengajukan klaim atau pengembalian barang</strong> setelah dokumen ini ditandatangani.
+        </p>
     </div>
 </div>
 
