@@ -15,12 +15,14 @@
                 <i class="bi bi-send me-1"></i>Sent to Supplier
             </button>
         </form>
+        @if(in_array(auth()->user()->role, ['management','admin']))
         <form action="{{ route('purchasing.po.cancel', $po) }}" method="POST">
             @csrf @method('PATCH')
             <button class="btn btn-danger" onclick="return confirm('Batalkan PO ini?')">
                 <i class="bi bi-x-circle me-1"></i>Cancel PO
             </button>
         </form>
+        @endif
         @elseif($po->status === 'sent')
         <button class="btn btn-outline-success" disabled>
             <i class="bi bi-check-circle me-1"></i>Sudah Dikirim ke Supplier
