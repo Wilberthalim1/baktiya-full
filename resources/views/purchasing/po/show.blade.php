@@ -26,7 +26,7 @@
         <span class="badge bg-warning fs-6 px-3 py-2"><i class="bi bi-hourglass-split me-1"></i>Menunggu Approval Management</span>
         @endif
         @elseif($po->status === 'approved')
-        @if(!in_array(auth()->user()->role, ['management']))
+        @if(in_array(auth()->user()->role, ['purchasing','admin']))
         <form action="{{ route('purchasing.po.send', $po) }}" method="POST">
             @csrf @method('PATCH')
             <button class="btn btn-primary" onclick="return confirm('Kirim PO ke Supplier? Pastikan semua item sudah benar.')">
