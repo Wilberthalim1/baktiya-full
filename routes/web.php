@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchasing/po/{po}', [PurchasingController::class, 'poShow'])->name('purchasing.po.show');
     Route::get('/purchasing/po/{po}/pdf', [PurchasingController::class, 'poPdf'])->name('purchasing.po.pdf');
     Route::patch('/purchasing/po/{po}/send', [PurchasingController::class, 'poSend'])->name('purchasing.po.send');
+    Route::patch('/purchasing/po/{po}/approve', [PurchasingController::class, 'poApprove'])->name('purchasing.po.approve')->middleware('role:management,admin');
+    Route::patch('/purchasing/po/{po}/reject', [PurchasingController::class, 'poReject'])->name('purchasing.po.reject')->middleware('role:management,admin');
     Route::patch('/purchasing/po/{po}/cancel', [PurchasingController::class, 'poCancel'])->name('purchasing.po.cancel')->middleware('role:management,admin');
     Route::patch('/purchasing/po/{po}/grpo-cancel', [PurchasingController::class, 'grpoCancel'])->name('purchasing.grpo.cancel')->middleware('role:management,admin');
     Route::post('/purchasing/po/{po}/gr', [PurchasingController::class, 'grStore'])->name('purchasing.gr.store');

@@ -29,23 +29,27 @@ class PurchaseOrder extends Model
 
     public function getStatusBadgeAttribute(): string {
         return match($this->status) {
-            'draft'     => 'secondary',
-            'sent'      => 'primary',
-            'partial'   => 'warning',
-            'received'  => 'success',
-            'cancelled' => 'danger',
-            default     => 'secondary'
+            'draft'            => 'secondary',
+            'pending_approval' => 'warning',
+            'approved'         => 'info',
+            'sent'             => 'primary',
+            'partial'          => 'warning',
+            'received'         => 'success',
+            'cancelled'        => 'danger',
+            default            => 'secondary'
         };
     }
 
     public function getStatusLabelAttribute(): string {
         return match($this->status) {
-            'draft'     => 'Draft',
-            'sent'      => 'Dikirim ke Supplier',
-            'partial'   => 'Sebagian Diterima',
-            'received'  => 'Sudah Diterima',
-            'cancelled' => 'Dibatalkan',
-            default     => $this->status
+            'draft'            => 'Draft',
+            'pending_approval' => 'Menunggu Approval',
+            'approved'         => 'Disetujui',
+            'sent'             => 'Dikirim ke Supplier',
+            'partial'          => 'Sebagian Diterima',
+            'received'         => 'Sudah Diterima',
+            'cancelled'        => 'Dibatalkan',
+            default            => $this->status
         };
     }
 }

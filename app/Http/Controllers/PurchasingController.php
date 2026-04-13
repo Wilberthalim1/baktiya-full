@@ -134,7 +134,7 @@ class PurchasingController extends Controller
                 'created_by' => Auth::id(),
                 'order_date' => $request->order_date,
                 'req_deliver_date' => $request->req_deliver_date,
-                'status' => 'draft',
+                'status' => 'pending_approval',
                 'remarks' => $request->remarks,
                 'total_price' => 0,
             ]);
@@ -177,6 +177,18 @@ class PurchasingController extends Controller
     {
         $po->update(['status' => 'sent']);
         return back()->with('success', 'PO ' . $po->doc_no . ' berhasil dikirim ke Supplier!');
+    }
+
+    public function poApprove(PurchaseOrder $po)
+    {
+        $po->update(['status' => 'approved']);
+        return back()->with('success', 'PO ' . $po->doc_no . ' telah disetujui!');
+    }
+
+    public function poReject(PurchaseOrder $po)
+    {
+        $po->update(['status' => 'draft']);
+        return back()->with('success', 'PO ' . $po->doc_no . ' dikembalikan ke Draft.');
     }
 
     public function poCancel(PurchaseOrder $po)

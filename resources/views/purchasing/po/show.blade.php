@@ -8,13 +8,39 @@
         <i class="bi bi-arrow-left me-1"></i>Kembali
     </a>
     <div class="d-flex gap-2">
-        @if($po->status === 'draft')
+        @if($po->status === 'pending_approval')
+        @if(in_array(auth()->user()->role, ['management','admin']))
+        <form action="{{ route('purchasing.po.approve', $po) }}" method="POST">
+            @csrf @method('PATCH')
+            <button class="btn btn-success" onclick="return confirm('Setujui PO ini?')">
+                <i class="bi bi-check-circle me-1"></i>Approve PO
+            </button>
+        </form>
+        <form action="{{ route('purchasing.po.reject', $po) }}" method="POST">
+            @csrf @method('PATCH')
+            <button class="btn btn-warning" onclick="return confirm('Kembalikan PO ke Draft?')">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Tolak
+            </button>
+        </form>
+        @else
+        <span class="badge bg-warning fs-6 px-3 py-2"><i class="bi bi-hourglass-split me-1"></i>Menunggu Approval Management</span>
+        @endif
+        @elseif($po->status === 'approved')
         <form action="{{ route('purchasing.po.send', $po) }}" method="POST">
             @csrf @method('PATCH')
             <button class="btn btn-primary" onclick="return confirm('Kirim PO ke Supplier? Pastikan semua item sudah benar.')">
                 <i class="bi bi-send me-1"></i>Sent to Supplier
             </button>
         </form>
+        @if(in_array(auth()->user()->role, ['management','admin']))
+        <form action="{{ route('purchasing.po.cancel', $po) }}" method="POST">
+            @csrf @method('PATCH')
+            <button class="btn btn-danger" onclick="return confirm('Batalkan PO ini?')">
+                <i class="bi bi-x-circle me-1"></i>Cancel PO
+            </button>
+        </form>
+        @endif
+        @elseif($po->status === 'draft')
         @if(in_array(auth()->user()->role, ['management','admin']))
         <form action="{{ route('purchasing.po.cancel', $po) }}" method="POST">
             @csrf @method('PATCH')
@@ -31,14 +57,6 @@
         <a href="{{ route('purchasing.po.pdf', $po) }}" target="_blank" class="btn btn-outline-danger">
             <i class="bi bi-file-earmark-pdf me-1"></i>Cetak PDF
         </a>
-        @if($po->supplier->phone)
-        @php
-            $phone = preg_replace('/[^0-9]/', '', $po->supplier->phone);
-            if (str_starts_with($phone, '0')) $phone = '62' . substr($phone, 1);
-            $pdfUrl = route('purchasing.po.pdf', $po);
-            $waText = urlencode("Halo, berikut kami kirimkan Purchase Order " . $po->doc_no . " dari PT. Baktiya Utama Indonesia.\n\nSilakan unduh dokumen PO di link berikut:\n" . $pdfUrl . "\n\nMohon konfirmasi penerimaan PO ini. Terima kasih.");
-        @endphp
-        @endif
         <span class="badge bg-{{ $po->status_badge }} fs-6 px-3 py-2">{{ $po->status_label }}</span>
     </div>
 </div>
@@ -83,11 +101,7 @@
                         <small class="text-muted">Remarks</small>
                         <div>{{ $po->remarks }}</div>
                     </div>
-                    @elseif($po->status === 'sent')
-        <button class="btn btn-outline-success" disabled>
-            <i class="bi bi-check-circle me-1"></i>Sudah Dikirim ke Supplier
-        </button>
-        @endif
+                    @endif
                 </div>
                 <table class="table">
                     <thead class="table-light">
