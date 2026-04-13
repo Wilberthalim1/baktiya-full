@@ -102,7 +102,7 @@ class SalesOrderController extends Controller
             $salesOrder->load('items');
             $salesOrder->update(['status' => 'approved']);
 
-            $docNo = 'IT' . substr($salesOrder->so_number, -4);
+            $docNo = InventoryTransfer::generateDocNo();
 
             $transfer = InventoryTransfer::create([
                 'doc_no'         => $docNo,
