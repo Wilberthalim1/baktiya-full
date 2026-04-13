@@ -15,6 +15,7 @@
         .sidebar .nav-section { padding: 10px 20px 5px; color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; }
         .main-content { margin-left: 250px; padding: 20px; }
         .topbar { background: white; padding: 12px 20px; margin: -20px -20px 20px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center; }
+        .bi { width: 1em; height: 1em; vertical-align: -0.125em; }
     </style>
 </head>
 <body>
