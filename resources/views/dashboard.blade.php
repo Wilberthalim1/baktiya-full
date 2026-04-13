@@ -3,6 +3,154 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
+
+{{-- MANAGEMENT APPROVAL SECTION --}}
+@if(in_array(auth()->user()->role, ['management','admin']) && $pending_approvals)
+
+{{-- Summary Cards --}}
+@php $total_pending = array_sum($pending_approvals); @endphp
+@if($total_pending > 0)
+<div class="alert alert-warning d-flex align-items-center mb-3">
+    <i class="bi bi-bell-fill me-2 fs-5"></i>
+    <strong>Ada {{ $total_pending }} item menunggu approval Anda.</strong>
+</div>
+@endif
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <a href="{{ route('sales.index') }}" class="text-decoration-none">
+            <div class="card border-{{ $pending_approvals['so'] > 0 ? 'warning' : 'success' }} text-center">
+                <div class="card-body py-3">
+                    <h3 class="mb-1 {{ $pending_approvals['so'] > 0 ? 'text-warning' : 'text-success' }}">{{ $pending_approvals['so'] }}</h3>
+                    <small class="text-muted">SO Menunggu Approval</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ route('purchasing.pr.index') }}" class="text-decoration-none">
+            <div class="card border-{{ $pending_approvals['pr'] > 0 ? 'warning' : 'success' }} text-center">
+                <div class="card-body py-3">
+                    <h3 class="mb-1 {{ $pending_approvals['pr'] > 0 ? 'text-warning' : 'text-success' }}">{{ $pending_approvals['pr'] }}</h3>
+                    <small class="text-muted">PR Menunggu Approval</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ route('purchasing.po.index') }}" class="text-decoration-none">
+            <div class="card border-{{ $pending_approvals['po'] > 0 ? 'warning' : 'success' }} text-center">
+                <div class="card-body py-3">
+                    <h3 class="mb-1 {{ $pending_approvals['po'] > 0 ? 'text-warning' : 'text-success' }}">{{ $pending_approvals['po'] }}</h3>
+                    <small class="text-muted">PO Menunggu Approval</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ route('accounting.supplier.index') }}" class="text-decoration-none">
+            <div class="card border-{{ $pending_approvals['payment'] > 0 ? 'warning' : 'success' }} text-center">
+                <div class="card-body py-3">
+                    <h3 class="mb-1 {{ $pending_approvals['payment'] > 0 ? 'text-warning' : 'text-success' }}">{{ $pending_approvals['payment'] }}</h3>
+                    <small class="text-muted">Pembayaran Menunggu Approval</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+{{-- Detail pending items --}}
+@if($pending_approvals['so'] > 0)
+<div class="card mb-3 border-warning">
+    <div class="card-header bg-warning fw-bold"><i class="bi bi-cart me-2"></i>Sales Order Menunggu Approval ({{ $pending_approvals['so'] }})</div>
+    <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+            <thead class="table-light"><tr><th>No SO</th><th>Customer</th><th>Sales</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <tbody>
+            @foreach($pending_so as $so)
+            <tr>
+                <td><strong class="text-primary">{{ $so->so_number }}</strong></td>
+                <td>{{ $so->customer->name }}</td>
+                <td>{{ $so->sales->name }}</td>
+                <td>{{ $so->order_date->format('d/m/Y') }}</td>
+                <td><a href="{{ route('sales.show', $so) }}" class="btn btn-sm btn-warning">Review</a></td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+
+@if($pending_approvals['pr'] > 0)
+<div class="card mb-3 border-warning">
+    <div class="card-header bg-warning fw-bold"><i class="bi bi-file-text me-2"></i>Purchase Request Menunggu Approval ({{ $pending_approvals['pr'] }})</div>
+    <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+            <thead class="table-light"><tr><th>Doc No</th><th>Dibuat Oleh</th><th>Jumlah Item</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <tbody>
+            @foreach($pending_pr as $pr)
+            <tr>
+                <td><strong class="text-primary">{{ $pr->doc_no }}</strong></td>
+                <td>{{ $pr->creator->name }}</td>
+                <td><span class="badge bg-info">{{ $pr->items->count() }} produk</span></td>
+                <td>{{ $pr->request_date->format('d/m/Y') }}</td>
+                <td><a href="{{ route('purchasing.pr.show', $pr) }}" class="btn btn-sm btn-warning">Review</a></td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+
+@if($pending_approvals['po'] > 0)
+<div class="card mb-3 border-warning">
+    <div class="card-header bg-warning fw-bold"><i class="bi bi-bag me-2"></i>Purchase Order Menunggu Approval ({{ $pending_approvals['po'] }})</div>
+    <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+            <thead class="table-light"><tr><th>Doc No PO</th><th>Vendor</th><th>Total</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <tbody>
+            @foreach($pending_po as $po)
+            <tr>
+                <td><strong class="text-primary">{{ $po->doc_no }}</strong></td>
+                <td>{{ $po->supplier->name }}</td>
+                <td>Rp {{ number_format($po->total_price, 0, ',', '.') }}</td>
+                <td>{{ $po->order_date->format('d/m/Y') }}</td>
+                <td><a href="{{ route('purchasing.po.show', $po) }}" class="btn btn-sm btn-warning">Review</a></td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+
+@if($pending_approvals['payment'] > 0)
+<div class="card mb-3 border-warning">
+    <div class="card-header bg-warning fw-bold"><i class="bi bi-cash me-2"></i>Pembayaran Supplier Menunggu Approval ({{ $pending_approvals['payment'] }})</div>
+    <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+            <thead class="table-light"><tr><th>Doc No</th><th>Vendor</th><th>Jumlah</th><th>Dibuat Oleh</th><th>Aksi</th></tr></thead>
+            <tbody>
+            @foreach($pending_payment as $payment)
+            <tr>
+                <td><strong class="text-primary">{{ $payment->doc_no }}</strong></td>
+                <td>{{ $payment->supplier->name }}</td>
+                <td>Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
+                <td>{{ $payment->creator->name }}</td>
+                <td><a href="{{ route('accounting.supplier.index') }}" class="btn btn-sm btn-warning">Review</a></td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+
+<hr class="my-4">
+@endif
+{{-- END MANAGEMENT SECTION --}}
 <div class="row g-3 mb-4">
     <div class="col-md-2">
         <div class="card text-center border-primary">

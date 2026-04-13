@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseRequest;
+use App\Models\SupplierPayment;
 use App\Models\SalesInvoice;
 use App\Models\StockMovement;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardInventoryController extends Controller
 {
@@ -37,7 +40,31 @@ class DashboardInventoryController extends Controller
             ->take(10)
             ->get();
 
-        return view('dashboard', compact('stats', 'low_stock_products', 'recent_so', 'recent_movements'));
+        // Data khusus management
+        $pending_approvals = null;
+        if (in_array(Auth::user()->role, ['management', 'admin'])) {
+            $pending_approvals = [
+                'so' => SalesOrder::where('status', 'pending')->count(),
+                'pr' => PurchaseRequest::where('status', 'pending')->count(),
+                'po' => PurchaseOrder::where('status', 'pending_approval')->count(),
+                'payment' => SupplierPayment::where('status', 'pending_approval')->count(),
+            ];
+
+            $pending_so = SalesOrder::with('customer', 'sales')
+                ->where('status', 'pending')->latest()->take(5)->get();
+            $pending_pr = PurchaseRequest::with('creator', 'items')
+                ->where('status', 'pending')->latest()->take(5)->get();
+            $pending_po = PurchaseOrder::with('supplier', 'purchaseRequest')
+                ->where('status', 'pending_approval')->latest()->take(5)->get();
+            $pending_payment = SupplierPayment::with('supplier', 'purchaseInvoice', 'creator')
+                ->where('status', 'pending_approval')->latest()->take(5)->get();
+        }
+
+        return view('dashboard', compact(
+            'stats', 'low_stock_products', 'recent_so', 'recent_movements',
+            'pending_approvals',
+            ...isset($pending_so) ? ['pending_so', 'pending_pr', 'pending_po', 'pending_payment'] : []
+        ));
     }
 
     public function inventory(\Illuminate\Http\Request $request)

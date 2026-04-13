@@ -58,14 +58,32 @@
 <div class="main-content">
     <div class="topbar">
         <h5 class="mb-0 fw-bold">@yield('page-title', 'Dashboard')</h5>
-        <div class="dropdown">
-            <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
-                <span class="badge bg-{{ auth()->user()->role_badge }} ms-1">{{ auth()->user()->role }}</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><form action="{{ route('logout') }}" method="POST">@csrf<button class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</button></form></li>
-            </ul>
+        <div class="d-flex align-items-center gap-3">
+            @if(in_array(auth()->user()->role, ['management','admin']))
+            @php
+                $notif_count = \App\Models\SalesOrder::where('status','pending')->count()
+                    + \App\Models\PurchaseRequest::where('status','pending')->count()
+                    + \App\Models\PurchaseOrder::where('status','pending_approval')->count()
+                    + \App\Models\SupplierPayment::where('status','pending_approval')->count();
+            @endphp
+            <a href="{{ route('dashboard') }}" class="btn btn-light position-relative">
+                <i class="bi bi-bell"></i>
+                @if($notif_count > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $notif_count }}
+                </span>
+                @endif
+            </a>
+            @endif
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
+                    <span class="badge bg-{{ auth()->user()->role_badge }} ms-1">{{ auth()->user()->role }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><form action="{{ route('logout') }}" method="POST">@csrf<button class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</button></form></li>
+                </ul>
+            </div>
         </div>
     </div>
 
